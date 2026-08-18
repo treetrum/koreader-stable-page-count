@@ -37,7 +37,7 @@ jobs:
         env:
           TAG_NAME: ${{ steps.release.outputs.tag_name }}
         run: |
-          asset="koreader-stable-page-count-${TAG_NAME}.zip"
+          asset="pagecount.koplugin.zip"
           zip -r "$asset" pagecount.koplugin
           echo "asset=$asset" >> "$GITHUB_OUTPUT"
 

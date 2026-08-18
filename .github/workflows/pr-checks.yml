@@ -31,4 +31,6 @@ jobs:
         run: luacheck pagecount.koplugin tests
 
       - name: Test
-        run: luajit tests/pagecount_spec.lua
+        run: |
+          luajit tests/pagecount_spec.lua
+          python3 tests/manifest_spec.py
