@@ -10,7 +10,25 @@ The plugin replaces KOReader's **Characters per page** control with **Desired pa
 
 Early development version. It currently supports reflowable documents handled by KOReader's CREngine, such as EPUB books.
 
-## Install on a KOReader device
+## Install with ZenPM
+
+Add the following custom source in ZenPM's **Sources** screen:
+
+```text
+https://zenpm.treetrum.com/
+```
+
+Refresh the catalog, then install **Stable Page Count**. ZenPM will identify this source as unsigned because it is hosted independently from its default signed repository.
+
+From the command line, the equivalent is:
+
+```sh
+zenpm repo add stable-page-count https://zenpm.treetrum.com/
+zenpm repo refresh
+zenpm install koreader-stable-page-count
+```
+
+## Install manually on a KOReader device
 
 1. Download the plugin ZIP from the latest GitHub release and extract it, or clone this repository.
 2. Copy the entire `pagecount.koplugin` directory into KOReader's `plugins` directory.
@@ -40,7 +58,7 @@ The page-count dialog shows the count produced by KOReader's 1500-characters-per
 
 ## Releases
 
-Release Please maintains the changelog, version tags, and GitHub releases from conventional commits. Merging a Release Please PR also attaches an installable `koreader-stable-page-count-vX.Y.Z.zip` containing `pagecount.koplugin` to the release.
+Release Please maintains the changelog, version tags, and GitHub releases from conventional commits. Merging a Release Please PR also attaches an installable `pagecount.koplugin.zip` containing `pagecount.koplugin` to the release.
 
 ## Development
 

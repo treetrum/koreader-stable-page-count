@@ -1,0 +1,54 @@
+name: ZenPM Pages
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - manifest.json
+      - README.md
+      - docs/**
+      - pages/**
+      - .github/workflows/zenpm-pages.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: zenpm-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy ZenPM repository
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Build site
+        run: |
+          mkdir -p _site
+          cp manifest.json README.md _site/
+          cp pages/index.html _site/
+          cp -R docs _site/
+          touch _site/.nojekyll
+          printf '%s\n' 'zenpm.treetrum.com' > _site/CNAME
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,39 @@
+{
+  "schema_version": "1",
+  "repo": {
+    "id": "treetrum-koreader-stable-page-count",
+    "name": "KOReader Stable Page Count",
+    "url": "https://zenpm.treetrum.com/"
+  },
+  "packages": [
+    {
+      "id": "koreader-stable-page-count",
+      "name": "Stable Page Count",
+      "version": "0.1.1",
+      "description": "Choose a desired stable page count and let KOReader calculate the characters per page.",
+      "author": "treetrum",
+      "category": "utility",
+      "platforms": [
+        "koreader"
+      ],
+      "dependencies": [],
+      "size": "",
+      "source": "https://github.com/treetrum/koreader-stable-page-count",
+      "source_type": "release",
+      "source_asset": "pagecount.koplugin.zip",
+      "plugin_module": "pagecount",
+      "readme_url": "README.md",
+      "screenshots": [
+        "docs/images/page-count-dialog.png"
+      ],
+      "assets": [
+        {
+          "arch": "any",
+          "asset": "pagecount.koplugin.zip",
+          "url": "https://github.com/treetrum/koreader-stable-page-count/releases/latest/download/pagecount.koplugin.zip",
+          "size": ""
+        }
+      ]
+    }
+  ]
+}
