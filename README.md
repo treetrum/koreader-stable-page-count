@@ -4,6 +4,8 @@ A KOReader plugin that lets you choose the stable page count you want instead of
 
 The plugin replaces KOReader's **Characters per page** control with **Desired page count**. It tests KOReader's native synthetic page-map values, chooses the closest result, and leaves the native stable-page system responsible for page labels, navigation, bookmarks, and status information.
 
+![Desired stable page count dialog](https://raw.githubusercontent.com/treetrum/koreader-stable-page-count/main/docs/images/page-count-dialog.png)
+
 ## Status
 
 Early development version. It currently supports reflowable documents handled by KOReader's CREngine, such as EPUB books.
