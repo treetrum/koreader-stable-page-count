@@ -9,7 +9,7 @@
     {
       "id": "koreader-stable-page-count",
       "name": "Stable Page Count",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "description": "Choose a desired stable page count and let KOReader calculate the characters per page.",
       "author": "treetrum",
       "category": "utility",
