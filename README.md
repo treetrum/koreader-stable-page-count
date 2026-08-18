@@ -10,7 +10,7 @@ Early development version. It currently supports reflowable documents handled by
 
 ## Install on a KOReader device
 
-1. Download or clone this repository.
+1. Download the plugin ZIP from the latest GitHub release and extract it, or clone this repository.
 2. Copy the entire `pagecount.koplugin` directory into KOReader's `plugins` directory.
 3. Restart KOReader.
 4. If necessary, enable **Stable page count** in KOReader's plugin manager and restart again.
@@ -35,6 +35,10 @@ KOReader creates synthetic stable pages from a characters-per-page value. This p
 EPUB files are split into internal HTML fragments, and KOReader starts at least one stable page for each fragment. Consequently, some exact page counts are impossible. In that case the plugin reports and applies the closest available count.
 
 The page-count dialog shows the count produced by KOReader's 1500-characters-per-page default as its default value. Publisher-provided page numbers remain available through **Use publisher page numbers**.
+
+## Releases
+
+Release Please maintains the changelog, version tags, and GitHub releases from conventional commits. Merging a Release Please PR also attaches an installable `koreader-stable-page-count-vX.Y.Z.zip` containing `pagecount.koplugin` to the release.
 
 ## Development
 

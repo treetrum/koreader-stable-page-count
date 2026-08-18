@@ -1,0 +1,50 @@
+name: Release Please
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: release-please
+  cancel-in-progress: false
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Release Please
+        id: release
+        uses: googleapis/release-please-action@v4
+        with:
+          token: ${{ secrets.RELEASE_PLEASE_GH_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+      - name: Check out repository
+        if: ${{ steps.release.outputs.release_created }}
+        uses: actions/checkout@v4
+
+      - name: Package plugin
+        if: ${{ steps.release.outputs.release_created }}
+        id: package
+        env:
+          TAG_NAME: ${{ steps.release.outputs.tag_name }}
+        run: |
+          asset="koreader-stable-page-count-${TAG_NAME}.zip"
+          zip -r "$asset" pagecount.koplugin
+          echo "asset=$asset" >> "$GITHUB_OUTPUT"
+
+      - name: Upload plugin package
+        if: ${{ steps.release.outputs.release_created }}
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_PLEASE_GH_TOKEN }}
+          TAG_NAME: ${{ steps.release.outputs.tag_name }}
+          ASSET: ${{ steps.package.outputs.asset }}
+        run: gh release upload "$TAG_NAME" "$ASSET" --clobber
