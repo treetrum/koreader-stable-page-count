@@ -1,0 +1,34 @@
+name: PR Title
+
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - reopened
+
+permissions:
+  contents: read
+
+jobs:
+  conventional-title:
+    name: Conventional PR title
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate title
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          python3 - <<'PY'
+          import os
+          import re
+          import sys
+
+          title = os.environ["PR_TITLE"]
+          pattern = r"(feat|fix|chore)(\([^)]+\))?!?: .+"
+          if not re.fullmatch(pattern, title):
+              print(f"Invalid pull request title: {title}", file=sys.stderr)
+              print("Expected: feat: ..., fix(scope): ..., or chore!: ...", file=sys.stderr)
+              sys.exit(1)
+          PY
