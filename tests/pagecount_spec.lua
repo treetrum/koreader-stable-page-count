@@ -22,19 +22,19 @@ end)
 assertEqual(pages, 10, "finds an exact page count")
 assert(chars >= 500 and chars <= 3000, "exact result stays within bounds")
 
-chars, pages = PageCount.findBestCharsPerPage(5, 500, 3000, function(chars_per_page)
+local _, closest_pages = PageCount.findBestCharsPerPage(5, 500, 3000, function(chars_per_page)
     return fragmentPageCount({ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, chars_per_page)
 end)
-assertEqual(pages, 10, "returns the closest count when fragments impose a minimum")
+assertEqual(closest_pages, 10, "returns the closest count when fragments impose a minimum")
 
-chars, pages = PageCount.findBestCharsPerPage(10, 1, 10, function(chars_per_page)
+local _, tied_pages = PageCount.findBestCharsPerPage(10, 1, 10, function(chars_per_page)
     return chars_per_page < 5 and 12 or 8
 end)
-assertEqual(pages, 12, "prefers the higher page count when differences tie")
+assertEqual(tied_pages, 12, "prefers the higher page count when differences tie")
 
-chars, pages = PageCount.findBestCharsPerPage(1, 500, 3000, function(chars_per_page)
+local upper_chars = PageCount.findBestCharsPerPage(1, 500, 3000, function(chars_per_page)
     return 4000 - chars_per_page
 end)
-assertEqual(chars, 3000, "uses the upper character bound for an unreachable low target")
+assertEqual(upper_chars, 3000, "uses the upper character bound for an unreachable low target")
 
 print("pagecount tests passed")
