@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/treetrum/koreader-stable-page-count/compare/v0.1.1...v0.2.0) (2026-08-18)
+
+
+### Features
+
+* add ZenPM package repository ([#8](https://github.com/treetrum/koreader-stable-page-count/issues/8)) ([eea8296](https://github.com/treetrum/koreader-stable-page-count/commit/eea8296194709f1f0f6f0068bec768616076b41a))
+
 ## [0.1.1](https://github.com/treetrum/koreader-stable-page-count/compare/v0.1.0...v0.1.1) (2026-08-18)
 
 
