@@ -8,7 +8,7 @@ local WidgetContainer = require("ui/widget/container/widgetcontainer")
 local _ = require("gettext")
 local T = require("ffi/util").template
 
-local PageCountCustomiser = WidgetContainer:extend{
+local StablePageCount = WidgetContainer:extend{
     name = "pagecount",
     is_doc_only = true,
     chars_per_page_default = 1500,
@@ -17,11 +17,11 @@ local PageCountCustomiser = WidgetContainer:extend{
     desired_page_count_max = 10000,
 }
 
-function PageCountCustomiser:init()
+function StablePageCount:init()
     self.ui.menu:registerToMainMenu(self)
 end
 
-function PageCountCustomiser:getStablePageCount()
+function StablePageCount:getStablePageCount()
     local pagemap = self.ui.pagemap
     if not pagemap or not pagemap.has_pagemap then
         return nil
@@ -29,7 +29,7 @@ function PageCountCustomiser:getStablePageCount()
     return select(3, pagemap:getCurrentPageLabel())
 end
 
-function PageCountCustomiser:applySyntheticPageMap(chars_per_page)
+function StablePageCount:applySyntheticPageMap(chars_per_page)
     local pagemap = self.ui.pagemap
     if not pagemap.has_pagemap then
         pagemap.has_pagemap = true
@@ -47,7 +47,7 @@ function PageCountCustomiser:applySyntheticPageMap(chars_per_page)
     UIManager:setDirty(pagemap.view.dialog, "partial")
 end
 
-function PageCountCustomiser:getDefaultStablePageCount()
+function StablePageCount:getDefaultStablePageCount()
     if self.default_page_count then
         return self.default_page_count
     end
@@ -69,7 +69,7 @@ function PageCountCustomiser:getDefaultStablePageCount()
     return self.default_page_count
 end
 
-function PageCountCustomiser:usePublisherPageNumbers(spin)
+function StablePageCount:usePublisherPageNumbers(spin)
     UIManager:show(ConfirmBox:new{
         text = _("Use publisher page numbers?\nThe document will be reloaded."),
         ok_callback = function()
@@ -84,7 +84,7 @@ function PageCountCustomiser:usePublisherPageNumbers(spin)
     })
 end
 
-function PageCountCustomiser:setDesiredPageCount(target_pages, touchmenu_instance)
+function StablePageCount:setDesiredPageCount(target_pages, touchmenu_instance)
     local pagemap = self.ui.pagemap
     local function getPageCount(chars_per_page)
         self.ui.document:buildSyntheticPageMap(chars_per_page)
@@ -111,7 +111,7 @@ function PageCountCustomiser:setDesiredPageCount(target_pages, touchmenu_instanc
     UIManager:show(InfoMessage:new{ text = message })
 end
 
-function PageCountCustomiser:showPageCountDialog(touchmenu_instance)
+function StablePageCount:showPageCountDialog(touchmenu_instance)
     local pagemap = self.ui.pagemap
     local current_pages = self:getStablePageCount() or self.ui.document:getPageCount() or 1
     local default_pages = self:getDefaultStablePageCount()
@@ -139,7 +139,7 @@ function PageCountCustomiser:showPageCountDialog(touchmenu_instance)
     })
 end
 
-function PageCountCustomiser:addToMainMenu(menu_items)
+function StablePageCount:addToMainMenu(menu_items)
     local page_map_item = menu_items.page_map
     if not self.ui.pagemap or not page_map_item or not page_map_item.sub_item_table then
         return
@@ -158,4 +158,4 @@ function PageCountCustomiser:addToMainMenu(menu_items)
     }
 end
 
-return PageCountCustomiser
+return StablePageCount

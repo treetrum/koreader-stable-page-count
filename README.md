@@ -1,4 +1,4 @@
-# KOReader Stable Page Count Customiser
+# KOReader Stable Page Count
 
 A KOReader plugin that lets you choose the stable page count you want instead of choosing an abstract number of characters per page.
 
@@ -13,7 +13,7 @@ Early development version. It currently supports reflowable documents handled by
 1. Download or clone this repository.
 2. Copy the entire `pagecount.koplugin` directory into KOReader's `plugins` directory.
 3. Restart KOReader.
-4. If necessary, enable **Stable page count customiser** in KOReader's plugin manager and restart again.
+4. If necessary, enable **Stable page count** in KOReader's plugin manager and restart again.
 5. Open a reflowable book and open its **Stable page numbers** menu.
 6. Choose **Desired page count**, enter a number, and press **Set page count**.
 
