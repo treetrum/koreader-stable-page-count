@@ -117,7 +117,6 @@ function StablePageCount:showPageCountDialog(touchmenu_instance)
     local default_pages = self:getDefaultStablePageCount()
     UIManager:show(SpinWidget:new{
         title_text = _("Desired stable page count"),
-        info_text = _("KOReader will calculate the characters per page and use its native stable page numbers."),
         value = current_pages,
         value_min = 1,
         value_max = self.desired_page_count_max,
