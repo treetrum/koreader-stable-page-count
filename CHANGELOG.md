@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.1.1](https://github.com/treetrum/koreader-stable-page-count/compare/v0.1.0...v0.1.1) (2026-08-18)
+
+
+### Bug Fixes
+
+* satisfy test lint checks ([#4](https://github.com/treetrum/koreader-stable-page-count/issues/4)) ([0ad2826](https://github.com/treetrum/koreader-stable-page-count/commit/0ad2826f88095f860214f125fd3b23c59f23f94c))
+* simplify page count dialog ([e1956c2](https://github.com/treetrum/koreader-stable-page-count/commit/e1956c2e4b9d33a9d661f12c043d41eadfad80f9))
+* use version-only release tags ([ae56525](https://github.com/treetrum/koreader-stable-page-count/commit/ae5652502bacf72976c24ddb0cb0deac66290cc6))
+
 ## 0.1.0 (2026-08-18)
 
 
