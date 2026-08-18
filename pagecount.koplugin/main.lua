@@ -11,6 +11,7 @@ local T = require("ffi/util").template
 local PageCountCustomiser = WidgetContainer:extend{
     name = "pagecount",
     is_doc_only = true,
+    chars_per_page_default = 1500,
     chars_per_page_min = 500,
     chars_per_page_max = 3000,
     desired_page_count_max = 10000,
@@ -44,6 +45,28 @@ function PageCountCustomiser:applySyntheticPageMap(chars_per_page)
     self.ui.doc_settings:saveSetting("pagemap_doc_pages", self:getStablePageCount())
     UIManager:broadcastEvent(Event:new("UsePageLabelsUpdated"))
     UIManager:setDirty(pagemap.view.dialog, "partial")
+end
+
+function PageCountCustomiser:getDefaultStablePageCount()
+    if self.default_page_count then
+        return self.default_page_count
+    end
+
+    local pagemap = self.ui.pagemap
+    local current_chars_per_page = pagemap.chars_per_synthetic_page
+    if not current_chars_per_page then
+        return nil
+    end
+
+    if current_chars_per_page == self.chars_per_page_default then
+        self.default_page_count = self:getStablePageCount()
+        return self.default_page_count
+    end
+
+    self.ui.document:buildSyntheticPageMap(self.chars_per_page_default)
+    self.default_page_count = select(3, pagemap:getCurrentPageLabel())
+    self.ui.document:buildSyntheticPageMap(current_chars_per_page)
+    return self.default_page_count
 end
 
 function PageCountCustomiser:usePublisherPageNumbers(spin)
@@ -91,6 +114,7 @@ end
 function PageCountCustomiser:showPageCountDialog(touchmenu_instance)
     local pagemap = self.ui.pagemap
     local current_pages = self:getStablePageCount() or self.ui.document:getPageCount() or 1
+    local default_pages = self:getDefaultStablePageCount()
     UIManager:show(SpinWidget:new{
         title_text = _("Desired stable page count"),
         info_text = _("KOReader will calculate the characters per page and use its native stable page numbers."),
@@ -99,7 +123,7 @@ function PageCountCustomiser:showPageCountDialog(touchmenu_instance)
         value_max = self.desired_page_count_max,
         value_step = 1,
         value_hold_step = 10,
-        default_value = current_pages,
+        default_value = default_pages,
         ok_text = _("Set page count"),
         ok_always_enabled = true,
         keep_shown_on_apply = true,
