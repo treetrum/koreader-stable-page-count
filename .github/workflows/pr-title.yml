@@ -26,9 +26,9 @@ jobs:
           import sys
 
           title = os.environ["PR_TITLE"]
-          pattern = r"(feat|fix|chore)(\([^)]+\))?!?: .+"
+          pattern = r"[a-z][a-z0-9-]*(\([^)]+\))?!?: .+"
           if not re.fullmatch(pattern, title):
               print(f"Invalid pull request title: {title}", file=sys.stderr)
-              print("Expected: feat: ..., fix(scope): ..., or chore!: ...", file=sys.stderr)
+              print("Expected: docs: ..., fix(scope): ..., or feat!: ...", file=sys.stderr)
               sys.exit(1)
           PY
