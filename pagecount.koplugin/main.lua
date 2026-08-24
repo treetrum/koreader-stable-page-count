@@ -1,8 +1,8 @@
 local ConfirmBox = require("ui/widget/confirmbox")
 local Event = require("ui/event")
 local InfoMessage = require("ui/widget/infomessage")
+local InputDialog = require("ui/widget/inputdialog")
 local PageCount = require("pagecount")
-local SpinWidget = require("ui/widget/spinwidget")
 local UIManager = require("ui/uimanager")
 local WidgetContainer = require("ui/widget/container/widgetcontainer")
 local _ = require("gettext")
@@ -69,11 +69,11 @@ function StablePageCount:getDefaultStablePageCount()
     return self.default_page_count
 end
 
-function StablePageCount:usePublisherPageNumbers(spin)
+function StablePageCount:usePublisherPageNumbers(dialog)
     UIManager:show(ConfirmBox:new{
         text = _("Use publisher page numbers?\nThe document will be reloaded."),
         ok_callback = function()
-            spin:onClose()
+            UIManager:close(dialog)
             self.ui.doc_settings:delSetting("pagemap_chars_per_synthetic_page")
             self.ui.document:invalidateCacheFile()
             local after_open_callback = function(ui)
@@ -115,27 +115,67 @@ function StablePageCount:showPageCountDialog(touchmenu_instance)
     local pagemap = self.ui.pagemap
     local current_pages = self:getStablePageCount() or self.ui.document:getPageCount() or 1
     local default_pages = self:getDefaultStablePageCount()
-    UIManager:show(SpinWidget:new{
-        title_text = _("Desired stable page count"),
-        value = current_pages,
-        value_min = 1,
-        value_max = self.desired_page_count_max,
-        value_step = 1,
-        value_hold_step = 10,
-        default_value = default_pages,
-        ok_text = _("Set page count"),
-        ok_always_enabled = true,
-        keep_shown_on_apply = true,
-        callback = function(spin)
-            spin:onClose()
-            self:setDesiredPageCount(spin.value, touchmenu_instance)
-        end,
-        extra_text = pagemap.has_pagemap_document_provided and pagemap.chars_per_synthetic_page
-            and _("Use publisher page numbers"),
-        extra_callback = function(spin)
-            self:usePublisherPageNumbers(spin)
-        end,
+    local input_dialog
+    local action_buttons = {}
+
+    if default_pages then
+        table.insert(action_buttons, {
+            text = T(_("Default: %1"), default_pages),
+            callback = function()
+                input_dialog:setInputText(tostring(default_pages), true, false)
+            end,
+        })
+    end
+    if pagemap.has_pagemap_document_provided and pagemap.chars_per_synthetic_page then
+        table.insert(action_buttons, {
+            text = _("Use publisher page numbers"),
+            callback = function()
+                input_dialog:onCloseKeyboard()
+                self:usePublisherPageNumbers(input_dialog)
+            end,
+        })
+    end
+
+    local buttons = {}
+    if #action_buttons > 0 then
+        table.insert(buttons, action_buttons)
+    end
+    table.insert(buttons, {
+        {
+            text = _("Cancel"),
+            id = "close",
+            callback = function()
+                UIManager:close(input_dialog)
+            end,
+        },
+        {
+            text = _("Set page count"),
+            is_enter_default = true,
+            callback = function()
+                local target_pages = input_dialog:getInputValue()
+                if not target_pages or target_pages < 1 or target_pages > self.desired_page_count_max
+                        or target_pages % 1 ~= 0 then
+                    UIManager:show(InfoMessage:new{
+                        text = T(_("Enter a whole number from %1 to %2."), 1, self.desired_page_count_max),
+                        timeout = 2,
+                    })
+                    return
+                end
+                UIManager:close(input_dialog)
+                self:setDesiredPageCount(target_pages, touchmenu_instance)
+            end,
+        },
     })
+
+    input_dialog = InputDialog:new{
+        title = _("Desired stable page count"),
+        input = "",
+        input_hint = T(_("Current: %1 (1 - %2)"), current_pages, self.desired_page_count_max),
+        input_type = "number",
+        buttons = buttons,
+    }
+    UIManager:show(input_dialog)
+    input_dialog:onShowKeyboard()
 end
 
 function StablePageCount:addToMainMenu(menu_items)
