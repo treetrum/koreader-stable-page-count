@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/treetrum/koreader-stable-page-count/compare/v0.2.0...v0.2.1) (2026-08-24)
+
+
+### Bug Fixes
+
+* use direct input for page count ([#10](https://github.com/treetrum/koreader-stable-page-count/issues/10)) ([a3fb66c](https://github.com/treetrum/koreader-stable-page-count/commit/a3fb66c00a1afbc153ef8e670730b18606d375fd))
+
 ## [0.2.0](https://github.com/treetrum/koreader-stable-page-count/compare/v0.1.1...v0.2.0) (2026-08-18)
 
 
