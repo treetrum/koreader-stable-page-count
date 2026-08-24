@@ -18,15 +18,7 @@ Add the following custom source in ZenPM's **Sources** screen:
 https://zenpm.treetrum.com/
 ```
 
-Refresh the catalog, then install **Stable Page Count**. ZenPM will identify this source as unsigned because it is hosted independently from its default signed repository.
-
-From the command line, the equivalent is:
-
-```sh
-zenpm repo add stable-page-count https://zenpm.treetrum.com/
-zenpm repo refresh
-zenpm install koreader-stable-page-count
-```
+Refresh the catalog, then install **Stable Page Count**.
 
 ## Install manually on a KOReader device
 
