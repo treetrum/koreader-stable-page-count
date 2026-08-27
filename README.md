@@ -12,13 +12,17 @@ Early development version. It currently supports reflowable documents handled by
 
 ## Install with ZenPM
 
-Add the following custom source in ZenPM's **Sources** screen:
+Add the following custom source in [ZenPM](https://github.com/xZenLabs/zen-pm)'s **Sources** screen:
 
 ```text
 https://zenpm.treetrum.com/
 ```
 
 Refresh the catalog, then install **Stable Page Count**.
+
+## Install with KOReader AppStore
+
+In the [KOReader AppStore](https://github.com/omer-faruq/appstore.koplugin), search for **Stable Page Count** and install it.
 
 ## Install manually on a KOReader device
 
